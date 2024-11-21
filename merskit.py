@@ -10,3 +10,5 @@ else: #Här slumpas det fram fälla i rummet
     
     level = level + 1 
     return level
+
+vald != 1 and vald != 2 and vald != 3:
