@@ -22,7 +22,6 @@ karak.print_karaktar_info()
 karak2.print_karaktar_info()
 karak3.print_karaktar_info()
 
-print(karak, karak2, karak3)
 vald = int(input("1. Dvärg 2. Alv 3. Tomte --> "))
 
 while vald != 1 and vald != 2 and vald != 3:
