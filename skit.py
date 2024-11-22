@@ -25,6 +25,9 @@ karak = karaktar("Dvärg", "Oliver", 75, 15, 1)
 karak2 = karaktar("Alv", "William", 125, 5, 1)
 karak3 = karaktar("Tomte", "Elton", 100, 10, 1)
 rustning = 0
+karak.print_karaktar_info()
+karak2.print_karaktar_info()
+karak3.print_karaktar_info()
 
 inventory = []
 
@@ -114,3 +117,5 @@ while True:
     else:
         print("Det du skrev var inte ett heltal mellan 1 och 3, välj ett nummer mellan 1 och 3")
         continue
+
+https://prod.liveshare.vsengsaas.visualstudio.com/join?19F179F576CAA68B1A5614A0014654A164F5
