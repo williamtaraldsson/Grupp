@@ -135,6 +135,8 @@ def monster_rum(ras, namn, hp, styrka, level):
 
 def kista_rum(spelare):
     
+
+    
     global inventory
 
     print("""I rummet du valde finns det en kista"
