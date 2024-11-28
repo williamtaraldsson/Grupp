@@ -37,10 +37,13 @@ karak3.print_karaktar_info()
 
 inventory = []
 
-vald = str(input("1. Dvärg 2. Alv 3. Tomte --> "))
-
 def get_number(alternativ1, alternativ2, alternativ3):
-    input()
+    siffra = input(f"""
+    [1] {alternativ1}
+    [2] {alternativ2}
+    [3] {alternativ3}
+    
+    Välj alternativ 1, 2 eller 3 --> """)
 
     while True:
         if siffra in "123":
@@ -50,7 +53,7 @@ def get_number(alternativ1, alternativ2, alternativ3):
         siffra = str(input("1, 2 eller 3 -->"))
     return siffra
     
-vald = get_number(vald)
+vald = get_number("Dvärg", "Alv", "Tomte")
 
 spelare = vald
 if spelare == "1":
@@ -66,8 +69,42 @@ elif spelare == "3":
 
 monster_typer = ["Goblin", "Orc", "Jätte", "Häxa", "Död kung", "Baby drake", "Lönmördare", ]
 
-def monster_rum(ras, namn, hp, styrka, level):
-    monster_typ = random.randint(monster_typer)
+def använda_inventory(hp):
+    
+    global inventory
+    
+    while True:
+            print("""Vill du använda något från ditt inventory?
+            [1] Ja, jag vill använda något från mitt inventory
+            [2] Gå vidare utan att använda något från ditt inventory""")
+    
+            val = input("Gör ditt val --> ")
+            if val in ["1", "2"]:
+                break
+            else:
+                print("Det du skrev var inte 1 eller 2, välj 1 eller 2.")
+                continue
+
+    if val == "1":  
+        print("Ditt inventory:")
+        for i, item in enumerate(inventory, start=1):
+            print(f"[{i}] {item}")
+        
+        använda = int(input("vilket av dina items vill du använda?"))
+        if inventory[använda] == "Kebab":
+            hp =+ 50
+        elif inventory[använda] == "Rustningsdel":
+            hp =+ 25
+    
+    return hp
+                
+
+def monster_rum(hp, styrka, level):
+
+    global inventory
+    index = 1
+
+    monster_typ = random.choice(monster_typer)
     if level >= 1 and level <= 3:
         monster_hp = random.randint(15, 25)
         monster_styrka = random.randint(5, 15)
@@ -77,9 +114,14 @@ def monster_rum(ras, namn, hp, styrka, level):
     elif level > 6 and level < 10:
         monster_hp = random.randint(50, 80)
         monster_styrka = random.randint(25, 35)
+
+        
         
     print(f"Bakom dörren du valde finns en {monster_typ} med styrka: {monster_styrka} och hp: {monster_hp}")
-    while hp > 0 or monster_hp > 0:
+    while hp > 0 and monster_hp > 0:
+        print(inventory)
+            
+        
         print(f"{monster_typ} attackerar, blocka attacken")
         spelar_gärning = str(input("""Välj vart på din kropp du vill blocka
             [1] Vänster
@@ -133,21 +175,38 @@ def monster_rum(ras, namn, hp, styrka, level):
         
 
 
-def kista_rum():
-    print("I rummet du valde finns det en kista")
-    print("Du går fram emot kistan och öppnar den")
+def kista_rum(hp):
+    
     global inventory
+
+    print("""I rummet du valde finns det en kista"
+          Du går fram emot kistan och öppnar den""")
     
     loot_items = [
-        ("kebab", "I kistan fanns det en kebabrulle, den ger dig mer hälsa!"),
+        ("Kebab", "I kistan fanns det en kebabrulle, den ger dig mer hälsa!"),
         ("Rustningsdel", "I kistan fanns det en rustningsdel, detta ger dig mer skydd mot dina fiender!"),
         ("Starkare svärd", "I kistan fanns det ett starkare svärd, detta gör mer skada mot dina fiender!"),
-        ("Förstoringsglas", "I kistan finns det ett förstoringsglas, detta kan du använda för att se vad som finns bakom dörrarna!")
+        ("Förstoringsglas", "I kistan finns det ett förstoringsglas, detta kan du använda för att se vad som finns bakom dörrarna!"),
+        (None, "Du öppnar kistan, men den är tom... Otur!"),
+        ("Fälla", "Det är en fälla! Kistan sprutar ut gift och du förlorar hälsa!")
     ]
-    
+
     loot, message = random.choice(loot_items)
     print(message)
     
+
+    if loot is None:
+        print("Det finns inget att lägga till i ditt inventory. Spelet forsätter.")
+        return
+    
+    if loot == "Fälla":
+        hp -= 10
+        print(f"Du förlorade 10 hälsa! Din nuvarande hälsa är: {hp}")
+        if hp <= 0:
+            print("Du har förlorat all din hälsa. Spelet är slut!")
+        return hp
+    
+
     if len(inventory) >= 5:
         while True:
             print("""Ditt inventory är fullt, vill du slänga något eller gå vidare?
@@ -189,25 +248,28 @@ def kista_rum():
     
 
 
-fälla = ["Sten klot","Fallgrop", "Pilar", "Spjut",  ]
+falla = ["Sten klot","Fallgrop", "Pilar", "Spjut", "Viloplats" ]
 
-def fälla_rum(ras, namn, hp, styrka):
-    fälla_skada = random.randint(5,35)
-    fälla_namn = random.randint(fälla)
-
-# def get_user_input():
-#     try:
-#         tal = int(input("Ditt val -->"))
-#     except ValueError:
-#         print("Det är inte ett heltal.")
-#         return 0        
-#     except:
-#         print("Något gick fel.")
-#         return 0
-#     return tal
-
-input
-gärning = get_number()
+def falla_rum(hp, styrka, level):
+    falla_skada = random.randint(5,35)
+    falla_namn = random.choice(falla)
+    if falla_namn == "Viloplats":
+        hp = hp + falla_skada
+        print(f"Inne i rummet finns en Eldstad där du vilar och får {falla_skada} mer hp")
+    else: 
+        hp = hp - falla_skada
+        print(f"Du öppnade dörren och där fanns {falla_namn}som skadade dig {falla_skada} hp")
+    return hp, styrka, level
 
 
-https://prod.liveshare.vsengsaas.visualstudio.com/join?1272A86540D93B1152E9DDF65FC904DFE7D3
+
+room_types = [monster_rum, kista_rum, falla_rum]
+
+
+while spelare.hp > 0 or spelare.level == 9:
+    print()
+    gärning = get_number("Gå vidare", "Stats & inventory", "Avsluta")
+    if gärning == "1":
+        get_number("Vänstra dörren", "Dörren rakt fram", "Högra dörren")
+        rum_func = random.choice(room_types)
+        rum_func(spelare.hp, spelare.styrka, spelare.level)
