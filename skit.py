@@ -135,18 +135,18 @@ def visa_rum_med_förstoringsglas():
         return rum_lista                
 # -----------kanske---------------
 
-def monster_rum(hp, rustning, styrka, level, monster):
+def monster_rum(spelare, monster):
 
     global inventory
     index = 1
 
-    if level >= 1 and level <= 3:
+    if spelare.level >= 1 and spelare.level <= 3:
         monster_hp = random.randint(15, 25)
         monster_styrka = random.randint(5, 15)
-    elif level > 3 and level <= 6:
+    elif spelare.level > 3 and spelare.level <= 6:
         monster_hp = random.randint(25, 50)
         monster_styrka = random.randint(15, 25)
-    elif level > 6 and level < 10:
+    elif spelare.level > 6 and spelare.level < 10:
         monster_hp = random.randint(50, 80)
         monster_styrka = random.randint(25, 35)
     else:
@@ -156,7 +156,7 @@ def monster_rum(hp, rustning, styrka, level, monster):
         
         
     print(f"I rummet finns en {monster} med styrka: {monster_styrka} och hp: {monster_hp}")
-    while hp > 0 and monster_hp > 0:
+    while spelare.hp > 0 and monster_hp > 0:
         #print(inventory)
             
         
@@ -179,9 +179,19 @@ def monster_rum(hp, rustning, styrka, level, monster):
         if spelar_gärning == monster_gärning:
             print("Du blockade och tog ingen skada.")
         else:
-            if rustning > 0: 
-                hp = hp - monster_styrka
-            print(f"Du blev träffad och tog {monster_styrka} skada, du har nu {hp} hp kvar")
+            if spelare.rustning_hp > 0: 
+                skada = monster_styrka
+                skada_kvar = skada - spelare.rustning_hp
+                spelare.rustning_hp = spelare.rustning_hp - skada
+                if spelare.rustning_hp <= 0:
+                    print("Du blev träffad av monstret. Din rustning gick sönder!")
+                    hp = hp - skada_kvar
+                    print(f"Du har nu {hp} hp kvar")
+                else:
+                    print(f"Du blev träffad och rustningen tog all skada. Rustningen har nu {spelare.rustning_hp} hp")
+            else:    
+                spelare.hp = spelare.hp - monster_styrka
+                print(f"Du blev träffad och tog {monster_styrka} skada, du har nu {spelare.hp} hp kvar")
             
         print(f"Du attackerar nu {monster}")
         spelar_gärning = input("""Välj vart du vill attackera
@@ -202,72 +212,73 @@ def monster_rum(hp, rustning, styrka, level, monster):
         if spelar_gärning == monster_gärning:
             print("Monstret blockade din attack.")
         else:
-            monster_hp = monster_hp - styrka
+            monster_hp = monster_hp - spelare.styrka
             if monster_hp > 0:
-                print(f"Monstret blev träffat och tog {styrka} skada, monstret har nu {monster_hp} hp kvar.")
+                print(f"Monstret blev träffat och tog {spelare.styrka} skada, monstret har nu {monster_hp} hp kvar.")
             else:
                 monster_hp = 0
-                print(f"Monstret blev träffat och tog {styrka} skada, monstret har nu {monster_hp} hp kvar.")
+                print(f"Monstret blev träffat och tog {spelare.styrka} skada, monstret har nu {monster_hp} hp kvar.")
                 print("Grattis! Du dödade monstret")
             
 
     
-    level = level + 1
+    spelare.level = spelare.level + 1
 
-    return hp, rustning, level
+    return spelare.hp, spelare.rustning_hp, spelare.level
     
             
 
-def använda_inventory(hp, styrka, inventory):
+def använda_inventory(spelare):
    
     global room_types
    
    
     while True:
-            print("""Vill du använda något från ditt inventory?
-            [1] Ja, jag vill använda något från mitt inventory
-            [2] Gå vidare utan att använda något från ditt inventory""")
+        print("""Vill du använda något från ditt inventory?
+        [1] Ja, jag vill använda något från mitt inventory
+        [2] Gå vidare utan att använda något från ditt inventory""")
    
-            val = input("Gör ditt val --> ")
-            if val in ["1", "2"]:
-                break
-            else:
-                print("Det du skrev var inte 1 eller 2, välj 1 eller 2.")
-                continue
+        val = input("Gör ditt val --> ")
+        if val in ["1", "2"]:
+            break
+        else:
+            print("Det du skrev var inte 1 eller 2, välj 1 eller 2.")
+            continue
 
-
-    if val == "1":  
-        print("Ditt inventory:")
-        for i, item in enumerate(inventory, start=1):
-            print(f"[{i}] {item}")
-       
-        använda = int(input("vilket av dina items vill du använda?"))
-        if inventory[använda] == "Kebab":
-            hp =+ 50
-        elif inventory[använda] == "Rustningsdel":
-            hp =+ 25
-        elif inventory[använda] == "Rostigt Svärd":
-            styrka =+ 10
-        elif inventory[använda] == "Långsvärd":
-            styrka =+ 20
-        elif inventory[använda] == "Drakdödaren":
-            styrka =+ 30
+    if val == 1:
+        if spelare.inventory == []:
+            print("Ditt inventory är tomt.")
+        else:
+            if val == "1":  
+                print("Ditt inventory:")
+                for i, item in enumerate(spelare.inventory, start=1):
+                    print(f"[{i}] {item}")
+            
+                använda = int(input("Vilket av dina items vill du använda?"))
+                if spelare.inventory[använda] == "Kebab":
+                    spelare.hp =+ 50
+                elif spelare.inventory[använda] == "Rustningsdel":
+                    spelare.hp =+ 25
+                elif spelare.inventory[använda] == "Rostigt Svärd":
+                    spelare.styrka =+ 10
+                elif spelare.inventory[använda] == "Långsvärd":
+                    spelare.styrka =+ 20
+                elif spelare.inventory[använda] == "Drakdödaren":
+                    spelare.styrka =+ 30
         
 
 
-    return hp, styrka 
+    return spelare 
             
         
 
 
-def kista_rum(hp):
-    
-    global inventory
+def kista_rum(spelare):
 
     print("""I rummet du valde finns det en kista"
           Du går fram emot kistan och öppnar den""")
     
-loot_items = [
+    loot_items = [
     (halsa_kebab, "I kistan fanns det en kebabrulle, den ger dig mer hälsa!"),
     (rustning_rostig, "I kistan fanns det en rostig rustning, detta ger dig lite skydd!"),
     (rustning_riddar, "I kistan fanns det en riddarrustning, detta ger dig mer skydd!"),
@@ -288,14 +299,14 @@ loot_items = [
         return
     
     if loot == "Fälla":
-        hp -= 10
-        print(f"Du förlorade 10 hälsa! Din nuvarande hälsa är: {hp}")
-        if hp <= 0:
+        spelare.hp -= 10
+        print(f"Du förlorade 10 hälsa! Din nuvarande hälsa är: {spelare.hp}")
+        if spelare.hp <= 0:
             print("Du har förlorat all din hälsa. Spelet är slut!")
-        return hp
+        return spelare.hp
     
 
-    if len(inventory) >= 5:
+    if len(spelare.inventory) >= 5:
         while True:
             print("""Ditt inventory är fullt, vill du slänga något eller gå vidare?
                 [1]Släng ett föremål från ditt inventory
@@ -313,41 +324,43 @@ loot_items = [
             while True:
                 try:
                     index = int(input("Vilken plats vill du slänga? [1-5]: ")) - 1
-                    if 0 <= index < len(inventory):
-                        borttaget = inventory.pop(index)
+                    if 0 <= index < len(spelare.inventory):
+                        borttaget = spelare.inventory.pop(index)
                         print(f"Du slängde {borttaget} från ditt inventory.")
                         break
                     else:
                         print("Ogiltigt index. Välj mellan 1 och 5.")
                 except ValueError:
                     print("Ange ett giltigt heltal.")
-            inventory.append(loot)
+            spelare.inventory.append(loot)
             
         
         if n == 2:
             print("Du går vidare utan att ta med dig ditt föremål")
-            return inventory
+            return spelare
     
-    elif len(inventory) < 5:
-        inventory.append(loot)
-        print("Du la till " + loot + " i ditt inventory")
-        return inventory
+    elif len(spelare.inventory) < 5:
+        spelare.inventory.append(loot)
+        loot = str(loot)
+        print(f"Du la till " + {loot} + " i ditt inventory")
+        
+    return spelare
 
     
 
 
 falla = ["Sten klot","Fallgrop", "Pilar", "Spjut", "Viloplats" ]
 
-def falla_rum(hp, rustning, styrka, level):
+def falla_rum(spelare):
     falla_skada = random.randint(5,35)
     falla_namn = random.choice(falla)
     if falla_namn == "Viloplats":
-        hp = hp + falla_skada
+        spelare.hp = spelare.hp + falla_skada
         print(f"Inne i rummet finns en Eldstad där du vilar och får {falla_skada} mer hp")
     else: 
-        hp = hp - falla_skada
-        print(f"Du öppnade dörren och där fanns {falla_namn}som skadade dig {falla_skada} hp")
-    return hp, rustning, styrka, level
+        spelare.hp = spelare.hp - falla_skada
+        print(f"Du öppnade dörren och där fanns {falla_namn} som skadade dig {falla_skada} hp")
+    return spelare
 
 
 
@@ -364,13 +377,13 @@ while spelare.hp > 0 and spelare.level <= 9:
         get_number("Vänstra dörren", "Dörren rakt fram", "Högra dörren")
         rum_func = random.choice(room_types)
         if rum_func == monster_rum:
-            rum_func(spelare.hp, spelare.styrka, spelare.level, random.choice(monster_typer))
+            rum_func(spelare, random.choice(monster_typer))
         else:
-            rum_func(spelare.hp, spelare.styrka, spelare.level)
+            rum_func(spelare)
     
-    elif gärning == 2:
-        #visa inventory
-        använda_inventory()
+    elif gärning == "2":
+        spelare.print_karaktar_info()
+        använda_inventory(spelare)
 
     else:
         spelare.hp = 0
