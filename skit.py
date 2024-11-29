@@ -69,34 +69,7 @@ elif spelare == "3":
 
 monster_typer = ["Goblin", "Orc", "Jätte", "Häxa", "Död kung", "Baby drake", "Lönmördare", ]
 
-def använda_inventory(hp):
-    
-    global inventory
-    
-    while True:
-            print("""Vill du använda något från ditt inventory?
-            [1] Ja, jag vill använda något från mitt inventory
-            [2] Gå vidare utan att använda något från ditt inventory""")
-    
-            val = input("Gör ditt val --> ")
-            if val in ["1", "2"]:
-                break
-            else:
-                print("Det du skrev var inte 1 eller 2, välj 1 eller 2.")
-                continue
 
-    if val == "1":  
-        print("Ditt inventory:")
-        for i, item in enumerate(inventory, start=1):
-            print(f"[{i}] {item}")
-        
-        använda = int(input("vilket av dina items vill du använda?"))
-        if inventory[använda] == "Kebab":
-            hp =+ 50
-        elif inventory[använda] == "Rustningsdel":
-            hp =+ 25
-    
-    return hp
                 
 
 def monster_rum(hp, styrka, level):
@@ -261,12 +234,45 @@ def falla_rum(hp, styrka, level):
         print(f"Du öppnade dörren och där fanns {falla_namn}som skadade dig {falla_skada} hp")
     return hp, styrka, level
 
-
-
 room_types = [monster_rum, kista_rum, falla_rum]
 
 
-while spelare.hp > 0 or spelare.level == 9:
+def använda_inventory(hp, styrka, objekt):
+    
+    global inventory
+    global room_types
+    
+    
+    while True:
+            print("""Vill du använda något från ditt inventory?
+            [1] Ja, jag vill använda något från mitt inventory
+            [2] Gå vidare utan att använda något från ditt inventory""")
+    
+            val = input("Gör ditt val --> ")
+            if val in ["1", "2"]:
+                break
+            else:
+                print("Det du skrev var inte 1 eller 2, välj 1 eller 2.")
+                continue
+
+    if val == "1":  
+        print("Ditt inventory:")
+        for i, item in enumerate(inventory, start=1):
+            print(f"[{i}] {item}")
+        
+        använda = int(input("vilket av dina items vill du använda?"))
+        if inventory[använda] == "Kebab":
+            hp =+ 50
+        elif inventory[använda] == "Rustningsdel":
+            hp =+ 25
+        elif inventory[använda] == "Starkare svärd":
+            styrka =+ 10
+        elif inventory[använda] == "Förstoringsglas":
+            objekt == "Förstoringsglas"
+
+    return hp, styrka, objekt
+
+while spelare.hp > 0 or spelare.level <= 9:
     print()
     gärning = get_number("Gå vidare", "Stats & inventory", "Avsluta")
     if gärning == "1":
