@@ -99,3 +99,50 @@ def kista_rum(spelare):
         print("Med ditt förstoringsglas ser du vad som finns bakom dörrarna:")
         print(f"[1] {rum_bakom_dörrar[0]} | [2] {rum_bakom_dörrar[1]} | [3] {rum_bakom_dörrar[2]}")
         return rum_lista
+    
+    def använda_inventory(hp, styrka):
+    
+    global inventory
+    global objekt
+    
+    while True:
+            print("""Vill du använda något från ditt inventory?
+            [1] Ja, jag vill använda något från mitt inventory
+            [2] Gå vidare utan att använda något från ditt inventory""")
+    
+            val = input("Gör ditt val --> ")
+            if val in ["1", "2"]:
+                break
+            else:
+                print("Det du skrev var inte 1 eller 2, välj 1 eller 2.")
+                continue
+
+    if val == "1":  
+        print("Ditt inventory:")
+        for i, item in enumerate(inventory, start=1):
+            print(f"[{i}] {item}")
+        
+        använda = int(input("vilket av dina items vill du använda?"))
+        if inventory[använda] == "Kebab":
+            hp =+ 50
+        elif inventory[använda] == "Rustningsdel":
+            hp =+ 25
+        elif inventory[använda] == "Starkare svärd":
+            styrka =+ 10
+        elif inventory[använda] == "Förstoringsglas":
+            objekt == "Förstoringsglas"
+
+
+    return hp, styrka, objekt   
+    
+def visa_rum_med_förstoringsglas():
+        
+        rum_lista = [monster_rum, kista_rum, falla_rum]
+        
+        random.shuffle(rum_lista)
+        
+        rum_bakom_dörrar = [rum.__name__ for rum in rum_lista]
+        print("Med ditt förstoringsglas ser du vad som finns bakom dörrarna:")
+        print(f"[1] {rum_bakom_dörrar[0]} | [2] {rum_bakom_dörrar[1]} | [3] {rum_bakom_dörrar[2]}")
+        return rum_lista                
+# -----------kanske---------------
