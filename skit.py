@@ -92,7 +92,7 @@ def monster_rum(hp, styrka, level):
         
     print(f"Bakom dörren du valde finns en {monster_typ} med styrka: {monster_styrka} och hp: {monster_hp}")
     while hp > 0 and monster_hp > 0:
-        print(inventory)
+        #print(inventory)
             
         
         print(f"{monster_typ} attackerar, blocka attacken")
@@ -139,6 +139,8 @@ def monster_rum(hp, styrka, level):
             monster_hp = monster_hp - styrka
             print(f"Monstret blev träffat och tog {styrka} hp, monstret har nu {monster_hp} hp kvar.")
     
+    level = level + 1
+
     return hp, level
     
             
@@ -237,6 +239,7 @@ def falla_rum(hp, styrka, level):
 room_types = [monster_rum, kista_rum, falla_rum]
 
 
+<<<<<<< HEAD
 def använda_inventory(hp, styrka, objekt):
     
     global inventory
@@ -274,8 +277,14 @@ def använda_inventory(hp, styrka, objekt):
 
 while spelare.hp > 0 or spelare.level <= 9:
     print()
+=======
+while spelare.hp > 0 or spelare.level == 9:
+    
+>>>>>>> 161f3421d4071ca9d45ce18fa88f8669279dae61
     gärning = get_number("Gå vidare", "Stats & inventory", "Avsluta")
     if gärning == "1":
         get_number("Vänstra dörren", "Dörren rakt fram", "Högra dörren")
         rum_func = random.choice(room_types)
         rum_func(spelare.hp, spelare.styrka, spelare.level)
+        
+https://prod.liveshare.vsengsaas.visualstudio.com/join?2AA84F009C9498206A977C6B6EB7CD4CEB92
