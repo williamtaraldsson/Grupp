@@ -88,3 +88,14 @@ def kista_rum(spelare):
 
 
     
+
+    def visa_rum_med_förstoringsglas():
+        # En lista med varje rumstyp
+        rum_lista = [monster_rum, kista_rum, falla_rum]
+        # Slumpa ordningen på listan
+        random.shuffle(rum_lista)
+        # Hämta namnen på varje funktion
+        rum_bakom_dörrar = [rum.__name__ for rum in rum_lista]
+        print("Med ditt förstoringsglas ser du vad som finns bakom dörrarna:")
+        print(f"[1] {rum_bakom_dörrar[0]} | [2] {rum_bakom_dörrar[1]} | [3] {rum_bakom_dörrar[2]}")
+        return rum_lista
