@@ -214,7 +214,8 @@ def använda_inventory(spelare):
                 for i, item in enumerate(spelare.inventory, start=1):
                     print(f"""[{i}] {item.item_namn:<16}: {item.styrka_bonus} extra styrka 
                       {item.hp_bonus} extra hp
-                      {item.rustning_hp_bonus} extra rustning.""")
+                      {item.rustning_hp_bonus} extra rustning.
+                      """)
             
                 använda = int(input("Vilket av dina items vill du använda?"))
                 if spelare.inventory[använda] == "Kebab":
