@@ -67,7 +67,7 @@ def get_number(alternativ1, alternativ2, alternativ3):
     --> """)
 
     while True:
-        if siffra in "123":
+        if siffra in ["1", "2", "3"]:
             break
         else:
             print("Det du skrev var inte ett heltal mellan 1 och 3, välj ett nummer mellan 1 och 3")
@@ -163,7 +163,7 @@ def monster_rum(spelare, monster):
             Attack -->""")
 
             while True:
-                if spelar_gärning in "123":
+                if spelar_gärning in ["1", "2", "3"]:
                     break
                 else:
                     print("Det du skrev var inte ett heltal mellan 1 och 3, välj ett nummer mellan 1 och 3")
@@ -256,7 +256,7 @@ def kista_rum(spelare, loot):
                   """)
             n = input("Gör ditt val här -->")
             
-            if n in "12":
+            if n in ["1", "2"]:
                 break
             else:
                 print("Det du skrev var inte ett heltal mellan 1 och 2, välj ett nummer mellan 1 och 2")
