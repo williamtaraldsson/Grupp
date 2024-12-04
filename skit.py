@@ -54,8 +54,10 @@ svard_rostig = item("Rostigt svärd", "svärd", 10, 0, 0, "I kistan fanns det et
 svard_lang = item("Långsvärd", "svärd", 20, 0, 0, "I kistan fanns det ett långsvärd, detta gör mycket skada!")
 svard_drake = item("Drakdödare", "svärd", 30, 0, 0, "I kistan fanns det Drakdödaren, ett kraftfullt svärd!")
 halsa_kebab = item("kebabrulle", "hälsa", 0, 50, 0, "I kistan fanns det en kebabrulle, den ger dig mer hälsa!")
+falla_item = item("Fälla", "fälla", 0, -10, 0, "Det var en fälla i kistan! Du tar skada!")
 
-kist_objekt = [rustning_rostig, rustning_riddar, rustning_drak, svard_rostig, svard_lang, svard_drake, halsa_kebab]
+
+kist_objekt = [rustning_rostig, rustning_riddar, rustning_drak, svard_rostig, svard_lang, svard_drake, halsa_kebab, falla_item, None]
 
 def get_number(alternativ1, alternativ2, alternativ3):
     siffra = input(f"""
@@ -190,62 +192,69 @@ def monster_rum(spelare, monster):
     return spelare
     
             
-
-def använda_inventory(spelare):
    
+def använda_inventory(spelare):
+    
     while True:
         print("""Vill du använda något från ditt inventory?
         [1] Ja, jag vill använda något från mitt inventory
         [2] Gå vidare utan att använda något från ditt inventory""")
-   
+        
         val = input("Gör ditt val --> ")
-        if val in "12":
+        if val in ["1", "2"]:
             break
         else:
-            print("Det du skrev var inte 1 eller 2, välj 1 eller 2.")
-            continue
+            print("Ogiltigt val. Vänligen välj 1 eller 2.")
 
     if val == "1":
-        if spelare.inventory == []:
+        if not spelare.inventory:
             print("Ditt inventory är tomt.")
         else:
-            if val == "1":  
-                print("Ditt inventory:")
-                for i, item in enumerate(spelare.inventory, start=1):
-                    print(f"""[{i}] {item.item_namn:<16}: {item.styrka_bonus} extra styrka 
-                      {item.hp_bonus} extra hp
-                      {item.rustning_hp_bonus} extra rustning.
-                      """)
+            print("Ditt inventory:")
+            for i, item in enumerate(spelare.inventory, start=1):
+                print(f"[{i}] {item.item_namn:<16}: {item.styrka_bonus} extra styrka, "
+                      f"{item.hp_bonus} extra hp, {item.rustning_hp_bonus} extra rustning.")
             
-                använda = int(input("Vilket av dina items vill du använda?"))
-                if spelare.inventory[använda] == "Kebab":
-                    spelare.hp =+ 50
-                elif spelare.inventory[använda] == "Rustningsdel":
-                    spelare.hp =+ 25
-                elif spelare.inventory[använda] == "Rostigt Svärd":
-                    spelare.styrka =+ 10
-                elif spelare.inventory[använda] == "Långsvärd":
-                    spelare.styrka =+ 20
-                elif spelare.inventory[använda] == "Drakdödaren":
-                    spelare.styrka =+ 30
+            while True:
+                try:
+                    använda = int(input(f"Vilket av dina items vill du använda? (1 - {len(spelare.inventory)}) --> ")) - 1
+                    if 0 <= använda < len(spelare.inventory):
+                        item = spelare.inventory.pop(använda)
+                        spelare.hp += item.hp_bonus
+                        spelare.styrka += item.styrka_bonus
+                        spelare.rustning_hp += item.rustning_hp_bonus
+                        print(f"Du använde {item.item_namn}.")
+                        print(f"""Dina nya stats: 
+                              HP={spelare.hp}
+                              Styrka={spelare.styrka} 
+                              Rustning HP={spelare.rustning_hp}""")
+                        break
+                    else:
+                        print(f"Ogiltigt val. Ange ett nummer mellan 1 och {len(spelare.inventory)}.")
+                except ValueError:
+                    print("Ogiltig inmatning. Vänligen ange ett giltigt heltal.")
 
-    return spelare 
-            
-        
+    return spelare
+
+             
 
 
 def kista_rum(spelare, loot):
 
     print("""I rummet du valde finns det en kista.
           Du går fram emot kistan och öppnar den""")
-
+    
     print(loot.item_message)
-    if loot is None or loot == "Fälla":
-        if loot == "Fälla":
-            spelare.hp -= 10
-            print(f"Du förlorade 10 hälsa! Din nuvarande hälsa är {spelare.hp}")
+    
+    if loot is None:  # Om loot är tomt
+        print("Kistan var tom. Du hittade inget av värde.")
         return spelare
-        
+    
+    if loot.typ == "fälla":
+        spelare.hp += loot.hp_bonus  
+        print(f"Det var en fälla! Du tog {abs(loot.hp_bonus)} skada.")
+        print(f"Din nuvarande hälsa är {spelare.hp}")
+        return spelare
     
 
     if len(spelare.inventory) >= 5:
@@ -254,9 +263,9 @@ def kista_rum(spelare, loot):
                 [1]Släng ett föremål från ditt inventory
                 [2]Gå vidare utan att ta upp det du hittade i kistan
                   """)
-            n = input("Gör ditt val här -->")
+            val = input("Gör ditt val här -->")
             
-            if n in ["1", "2"]:
+            if val in ["1", "2"]:
                 break
             else:
                 print("Det du skrev var inte ett heltal mellan 1 och 2, välj ett nummer mellan 1 och 2")
@@ -264,7 +273,7 @@ def kista_rum(spelare, loot):
         for i, item in enumerate(spelare.inventory, start=1):
             print(f"[{i}] {item.item_namn}")
 
-        if n == "1":
+        if val == "1":
             while True:
                 try:
                     index = int(input("Vilken plats vill du slänga? [1-5]: ")) - 1
@@ -279,7 +288,7 @@ def kista_rum(spelare, loot):
             spelare.inventory.append(loot)
             
         
-        if n == "2":
+        if val == "2":
             print("Du går vidare utan att ta med dig ditt föremål")
         
     
@@ -317,10 +326,7 @@ def falla_rum(spelare):
     return spelare
 
 
-
-room_types = [kista_rum]
-
-
+room_types = [kista_rum, falla_rum, monster_rum]
 
 
 while spelare.hp > 0 and spelare.level <= 9:
@@ -348,7 +354,9 @@ while spelare.hp > 0 and spelare.level <= 9:
 
 
 if spelare.level == 10:
-    monster_rum(spelare.hp, spelare.styrka, spelare.level, "Drake")
+    monster_rum(spelare, "Drake")
 
 else:
     print("Spelet är slut")
+
+#Det går inte att slumpa fram alla rum, bara kistrummet. Monster_rum och kista_rum är anropade fel men kan inte lösa det
