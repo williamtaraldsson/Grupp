@@ -28,6 +28,7 @@ class karaktar:
         Hp: {self.hp}
         Styrka: {self.styrka}
         Level: {self.level}
+        Rustning: {self.rustning_hp}
         """)
 
 karak = karaktar("Dvärg", "Oliver", 75, 0, 17, 1, [])
@@ -127,7 +128,7 @@ def monster_rum(spelare, monster):
         Block --> """))
 
         while True:
-            if spelar_gärning in "123":
+            if spelar_gärning in ["1","2","3"]:
                 break
             else:
                 print("Det du skrev var inte ett heltal mellan 1 och 3, välj ett nummer mellan 1 och 3")
