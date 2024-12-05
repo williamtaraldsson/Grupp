@@ -326,7 +326,7 @@ def falla_rum(spelare):
     return spelare
 
 
-room_types = [kista_rum, falla_rum, monster_rum]
+room_types = ["kista_rum", "falla_rum", "monster_rum"]
 
 
 while spelare.hp > 0 and spelare.level <= 9:
@@ -336,12 +336,12 @@ while spelare.hp > 0 and spelare.level <= 9:
     if gärning == "1":
         get_number("Vänstra dörren", "Dörren rakt fram", "Högra dörren")
         rum_func = random.choice(room_types)
-        if rum_func == monster_rum:
-            rum_func(spelare, random.choice(monster_typer))
-        elif rum_func == kista_rum:
-            rum_func(spelare, random.choice(kist_objekt))
+        if rum_func == "monster_rum":
+            monster_rum(spelare, random.choice(monster_typer))
+        elif rum_func == "kista_rum":
+            kista_rum(spelare, random.choice(kist_objekt))
         else:
-            rum_func(spelare)
+            falla_rum(spelare)
     
     elif gärning == "2":
         spelare.print_karaktar_info()
