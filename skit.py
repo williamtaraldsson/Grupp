@@ -331,7 +331,7 @@ room_types = ["kista_rum", "kista_rum", "falla_rum", "monster_rum", "monster_rum
 
 while spelare.hp > 0 and spelare.level <= 9:
     
-    print(f"Du har {spelare.hp}hp")
+    print(f"Du har {spelare.hp}hp och din rustning har {spelare.rustning_hp} sköld")
     gärning = get_number("Gå vidare", "Stats & inventory", "Avsluta")
     if gärning == "1":
         get_number("Vänstra dörren", "Dörren rakt fram", "Högra dörren")
