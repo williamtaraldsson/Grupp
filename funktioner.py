@@ -49,6 +49,8 @@ def monster_rum(spelare, monster):
                 skada_kvar = skada - spelare.rustning_hp
                 spelare.rustning_hp = spelare.rustning_hp - skada
                 if spelare.rustning_hp <= 0:
+                    spelare.rustning_hp = 0
+                    spelare.inventory.pop()
                     print("Du blev träffad av monstret. Din rustning gick sönder!")
                     spelare.hp = spelare.hp - skada_kvar
                     print(f"Du har nu {spelare.hp} hp kvar")
@@ -139,6 +141,7 @@ def kista_rum(spelare, loot):
                     if 0 <= index < len(spelare.inventory):
                         borttaget = spelare.inventory.pop(index)
                         print(f"Du slängde {borttaget.item_namn} från ditt inventory.")
+                        spelare.styrka = spelare.styrka - borttaget.styrka_bonus
                         break
                     else:
                         print("Ogiltigt index. Välj mellan 1 och 5.")
@@ -154,7 +157,7 @@ def kista_rum(spelare, loot):
     elif len(spelare.inventory) < 5:
         spelare.inventory.append(loot)
         print(f"Du la till {loot.item_namn} i ditt inventory")
-        
+
     return spelare
 
 
@@ -210,9 +213,12 @@ def använda_inventory(spelare):
                         if spelare.inventory[använda].item_type == "äta":
                             item = spelare.inventory.pop(använda)
                             spelare.hp += item.hp_bonus
+                        elif item.anvanda_ganger > 0:
+                            print("Du har redan använt detta item en gång.")
                         else:                            
                             spelare.styrka += item.styrka_bonus
                             spelare.rustning_hp += item.rustning_hp_bonus
+                            item.anvanda_ganger += 1
                             print(f"Du använde {item.item_namn}.")
                             print(f"""Dina nya stats: 
                                 HP={spelare.hp}
@@ -225,3 +231,21 @@ def använda_inventory(spelare):
                     print("Ogiltig inmatning. Vänligen ange ett giltigt heltal.")
 
     return spelare
+
+
+def get_number(alternativ1, alternativ2, alternativ3):
+    siffra = input(f"""
+    [1] {alternativ1}
+    [2] {alternativ2}
+    [3] {alternativ3}
+    
+    Välj alternativ 1, 2 eller 3: 
+    --> """)
+
+    while True:
+        if siffra in ["1", "2", "3"]:
+            break
+        else:
+            print("Det du skrev var inte ett heltal mellan 1 och 3, välj ett nummer mellan 1 och 3")
+        siffra = str(input("1, 2 eller 3 -->"))
+    return siffra

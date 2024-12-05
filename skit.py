@@ -25,36 +25,21 @@ karak3.print_karaktar_info()
         
 
 
-rustning_rostig = klasser.item("Rostig rustning", "rustning", 0, 0, 10, "I kistan fanns det en rostig rustning, detta ger dig lite skydd!", "Bära")
-rustning_riddar = klasser.item("Riddar rustning", "rustning", 0, 0, 15, "I kistan fanns det en riddarrustning, detta ger dig mer skydd!", "Bära")
-rustning_drak = klasser.item("Drakrustning", "rustning", 0, 0, 25, "I kistan fanns det en mäktig drakrustning, detta ger dig mycket skydd!", "Bära")
-svard_rostig = klasser.item("Rostigt svärd", "svärd", 10, 0, 0, "I kistan fanns det ett rostigt svärd, detta gör lite extra skada!", "Bära")
-svard_lang = klasser.item("Långsvärd", "svärd", 20, 0, 0, "I kistan fanns det ett långsvärd, detta gör mycket skada!", "Bära")
-svard_drake = klasser.item("Drakdödare", "svärd", 30, 0, 0, "I kistan fanns det Drakdödaren, ett kraftfullt svärd!", "Bära")
-halsa_kebab = klasser.item("kebabrulle", "hälsa", 0, 50, 0, "I kistan fanns det en kebabrulle, den ger dig mer hälsa!", "Äta")
-falla_item = klasser.item("Fälla", "fälla", 0, -10, 0, "Det var en fälla i kistan! Du tar skada!", "Inget")
+rustning_rostig = klasser.item("Rostig rustning", "rustning", 0, 0, 10, "I kistan fanns det en rostig rustning, detta ger dig lite skydd!", "Bära", 0)
+rustning_riddar = klasser.item("Riddar rustning", "rustning", 0, 0, 15, "I kistan fanns det en riddarrustning, detta ger dig mer skydd!", "Bära", 0)
+rustning_drak = klasser.item("Drakrustning", "rustning", 0, 0, 25, "I kistan fanns det en mäktig drakrustning, detta ger dig mycket skydd!", "Bära", 0)
+svard_rostig = klasser.item("Rostigt svärd", "svärd", 10, 0, 0, "I kistan fanns det ett rostigt svärd, detta gör lite extra skada!", "Bära", 0)
+svard_lang = klasser.item("Långsvärd", "svärd", 20, 0, 0, "I kistan fanns det ett långsvärd, detta gör mycket skada!", "Bära", 0)
+svard_drake = klasser.item("Drakdödare", "svärd", 30, 0, 0, "I kistan fanns det Drakdödaren, ett kraftfullt svärd!", "Bära", 0)
+halsa_kebab = klasser.item("kebabrulle", "hälsa", 0, 50, 0, "I kistan fanns det en kebabrulle, den ger dig mer hälsa!", "Äta", 0)
+falla_item = klasser.item("Fälla", "fälla", 0, -10, 0, "Det var en fälla i kistan! Du tar skada!", "Inget", 0)
 
 
 kist_objekt = [rustning_rostig, rustning_rostig, rustning_rostig, rustning_riddar, rustning_riddar, rustning_drak, svard_rostig, svard_rostig, svard_rostig, svard_lang, svard_lang, svard_drake, halsa_kebab, halsa_kebab, falla_item, None]
 
-def get_number(alternativ1, alternativ2, alternativ3):
-    siffra = input(f"""
-    [1] {alternativ1}
-    [2] {alternativ2}
-    [3] {alternativ3}
-    
-    Välj alternativ 1, 2 eller 3: 
-    --> """)
 
-    while True:
-        if siffra in ["1", "2", "3"]:
-            break
-        else:
-            print("Det du skrev var inte ett heltal mellan 1 och 3, välj ett nummer mellan 1 och 3")
-        siffra = str(input("1, 2 eller 3 -->"))
-    return siffra
     
-vald = get_number("Dvärg", "Alv", "Tomte")
+vald = funktioner.get_number("Dvärg", "Alv", "Tomte")
 
 spelare = vald
 if spelare == "1":
@@ -76,15 +61,15 @@ falla = ["Sten klot","Fallgrop", "Pilar", "Spjut", "Viloplats" ]
 
 
 
-room_types = ["kista_rum", "kista_rum", "falla_rum", "monster_rum", "monster_rum", "monster_rum", ]
+room_types = ["kista_rum"]
 
 
 while spelare.hp > 0 and spelare.level <= 9:
     
     print(f"Du har {spelare.hp}hp och din rustning har {spelare.rustning_hp} sköld")
-    gärning = get_number("Gå vidare", "Stats & inventory", "Avsluta")
+    gärning = funktioner.get_number("Gå vidare", "Stats & inventory", "Avsluta")
     if gärning == "1":
-        get_number("Vänstra dörren", "Dörren rakt fram", "Högra dörren")
+        funktioner.get_number("Vänstra dörren", "Dörren rakt fram", "Högra dörren")
         rum_func = random.choice(room_types)
         if rum_func == "monster_rum":
             funktioner.monster_rum(spelare, random.choice(monster_typer))
@@ -109,5 +94,3 @@ if spelare.level == 10:
 else:
     print("Spelet är slut")
 
-#Det går inte att slumpa fram alla rum, bara kistrummet. Monster_rum och kista_rum är anropade fel men kan inte lösa det
-https://prod.liveshare.vsengsaas.visualstudio.com/join?010A8202E0447225FE233311269B9B1F1968

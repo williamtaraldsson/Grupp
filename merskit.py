@@ -146,3 +146,5 @@ def visa_rum_med_förstoringsglas():
         print(f"[1] {rum_bakom_dörrar[0]} | [2] {rum_bakom_dörrar[1]} | [3] {rum_bakom_dörrar[2]}")
         return rum_lista                
 # -----------kanske---------------
+
+"kista_rum", "kista_rum", "falla_rum", "monster_rum", "monster_rum", "monster_rum", 

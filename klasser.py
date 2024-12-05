@@ -19,7 +19,7 @@ class karaktar:
         """)
 
 class item:
-    def __init__(self, item_namn, typ, styrka_bonus, hp_bonus, rustning_hp_bonus, item_message, item_type):
+    def __init__(self, item_namn, typ, styrka_bonus, hp_bonus, rustning_hp_bonus, item_message, item_type, anvanda_ganger):
         self.item_namn = item_namn
         self.typ = typ
         self.styrka_bonus = styrka_bonus
@@ -27,3 +27,4 @@ class item:
         self.rustning_hp_bonus = rustning_hp_bonus
         self.item_message = item_message
         self.item_type = item_type
+        self.anvanda_ganger = anvanda_ganger
