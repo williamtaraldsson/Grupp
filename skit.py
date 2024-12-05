@@ -110,3 +110,4 @@ else:
     print("Spelet är slut")
 
 #Det går inte att slumpa fram alla rum, bara kistrummet. Monster_rum och kista_rum är anropade fel men kan inte lösa det
+https://prod.liveshare.vsengsaas.visualstudio.com/join?010A8202E0447225FE233311269B9B1F1968
