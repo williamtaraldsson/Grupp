@@ -57,7 +57,7 @@ halsa_kebab = item("kebabrulle", "hälsa", 0, 50, 0, "I kistan fanns det en keba
 falla_item = item("Fälla", "fälla", 0, -10, 0, "Det var en fälla i kistan! Du tar skada!")
 
 
-kist_objekt = [rustning_rostig, rustning_riddar, rustning_drak, svard_rostig, svard_lang, svard_drake, halsa_kebab, falla_item, None]
+kist_objekt = [rustning_rostig, rustning_rostig, rustning_rostig, rustning_riddar, rustning_riddar, rustning_drak, svard_rostig, svard_rostig, svard_rostig, svard_lang, svard_lang, svard_drake, halsa_kebab, halsa_kebab, falla_item, None]
 
 def get_number(alternativ1, alternativ2, alternativ3):
     siffra = input(f"""
