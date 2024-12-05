@@ -326,7 +326,7 @@ def falla_rum(spelare):
     return spelare
 
 
-room_types = ["kista_rum", "falla_rum", "monster_rum"]
+room_types = ["kista_rum", "kista_rum", "falla_rum", "monster_rum", "monster_rum", "monster_rum", ]
 
 
 while spelare.hp > 0 and spelare.level <= 9:
