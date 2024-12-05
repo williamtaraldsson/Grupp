@@ -49,8 +49,6 @@ def monster_rum(spelare, monster):
                 skada_kvar = skada - spelare.rustning_hp
                 spelare.rustning_hp = spelare.rustning_hp - skada
                 if spelare.rustning_hp <= 0:
-                    spelare.rustning_hp = 0
-                    spelare.inventory.pop()
                     print("Du blev träffad av monstret. Din rustning gick sönder!")
                     spelare.hp = spelare.hp - skada_kvar
                     print(f"Du har nu {spelare.hp} hp kvar")
@@ -210,20 +208,14 @@ def använda_inventory(spelare):
                 try:
                     använda = int(input(f"Vilket av dina items vill du använda? (1 - {len(spelare.inventory)}) --> ")) - 1
                     if 0 <= använda < len(spelare.inventory):
-                        if spelare.inventory[använda].item_type == "äta":
-                            item = spelare.inventory.pop(använda)
-                            spelare.hp += item.hp_bonus
-                        elif item.anvanda_ganger > 0:
-                            print("Du har redan använt detta item en gång.")
-                        else:                            
-                            spelare.styrka += item.styrka_bonus
-                            spelare.rustning_hp += item.rustning_hp_bonus
-                            item.anvanda_ganger += 1
-                            print(f"Du använde {item.item_namn}.")
-                            print(f"""Dina nya stats: 
-                                HP={spelare.hp}
-                                Styrka={spelare.styrka} 
-                                Rustning HP={spelare.rustning_hp}""")
+                        item = spelare.inventory.pop(använda)
+                        spelare.styrka += item.styrka_bonus
+                        spelare.rustning_hp += item.rustning_hp_bonus
+                        print(f"Du använde {item.item_namn}.")
+                        print(f"""Dina nya stats: 
+                            HP={spelare.hp}
+                            Styrka={spelare.styrka} 
+                            Rustning HP={spelare.rustning_hp}""")
                         break
                     else:
                         print(f"Ogiltigt val. Ange ett nummer mellan 1 och {len(spelare.inventory)}.")

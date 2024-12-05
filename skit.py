@@ -25,14 +25,14 @@ karak3.print_karaktar_info()
         
 
 
-rustning_rostig = klasser.item("Rostig rustning", "rustning", 0, 0, 10, "I kistan fanns det en rostig rustning, detta ger dig lite skydd!", "Bära", 0)
-rustning_riddar = klasser.item("Riddar rustning", "rustning", 0, 0, 15, "I kistan fanns det en riddarrustning, detta ger dig mer skydd!", "Bära", 0)
-rustning_drak = klasser.item("Drakrustning", "rustning", 0, 0, 25, "I kistan fanns det en mäktig drakrustning, detta ger dig mycket skydd!", "Bära", 0)
-svard_rostig = klasser.item("Rostigt svärd", "svärd", 10, 0, 0, "I kistan fanns det ett rostigt svärd, detta gör lite extra skada!", "Bära", 0)
-svard_lang = klasser.item("Långsvärd", "svärd", 20, 0, 0, "I kistan fanns det ett långsvärd, detta gör mycket skada!", "Bära", 0)
-svard_drake = klasser.item("Drakdödare", "svärd", 30, 0, 0, "I kistan fanns det Drakdödaren, ett kraftfullt svärd!", "Bära", 0)
-halsa_kebab = klasser.item("kebabrulle", "hälsa", 0, 50, 0, "I kistan fanns det en kebabrulle, den ger dig mer hälsa!", "Äta", 0)
-falla_item = klasser.item("Fälla", "fälla", 0, -10, 0, "Det var en fälla i kistan! Du tar skada!", "Inget", 0)
+rustning_rostig = klasser.item("Rostig rustning", "rustning", 0, 0, 10, "I kistan fanns det en rostig rustning, detta ger dig lite skydd!")
+rustning_riddar = klasser.item("Riddar rustning", "rustning", 0, 0, 15, "I kistan fanns det en riddarrustning, detta ger dig mer skydd!")
+rustning_drak = klasser.item("Drakrustning", "rustning", 0, 0, 25, "I kistan fanns det en mäktig drakrustning, detta ger dig mycket skydd!")
+svard_rostig = klasser.item("Rostigt svärd", "svärd", 10, 0, 0, "I kistan fanns det ett rostigt svärd, detta gör lite extra skada!")
+svard_lang = klasser.item("Långsvärd", "svärd", 20, 0, 0, "I kistan fanns det ett långsvärd, detta gör mycket skada!")
+svard_drake = klasser.item("Drakdödare", "svärd", 30, 0, 0, "I kistan fanns det Drakdödaren, ett kraftfullt svärd!")
+halsa_kebab = klasser.item("kebabrulle", "hälsa", 0, 50, 0, "I kistan fanns det en kebabrulle, den ger dig mer hälsa!")
+falla_item = klasser.item("Fälla", "fälla", 0, -10, 0, "Det var en fälla i kistan! Du tar skada!")
 
 
 kist_objekt = [rustning_rostig, rustning_rostig, rustning_rostig, rustning_riddar, rustning_riddar, rustning_drak, svard_rostig, svard_rostig, svard_rostig, svard_lang, svard_lang, svard_drake, halsa_kebab, halsa_kebab, falla_item, None]
@@ -61,7 +61,7 @@ falla = ["Sten klot","Fallgrop", "Pilar", "Spjut", "Viloplats" ]
 
 
 
-room_types = ["kista_rum"]
+room_types = ["kista_rum", "kista_rum", "falla_rum", "monster_rum", "monster_rum", "monster_rum"]
 
 
 while spelare.hp > 0 and spelare.level <= 9:
